@@ -11,20 +11,41 @@ import Share from "./screens/Share.jsx";
 const PYRAMID_STYLE = "층층"; // "층층" | "삼각형"
 const ELEMENT_ACCENT = true;
 const BREW_MS = 2600;
+const STORAGE_KEY = "yeoun:lastEntry";
 
 function solarDaysInMonth(y, m) {
   return new Date(y, m, 0).getDate();
 }
 
+function loadSavedEntry() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveEntry(entry) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entry));
+  } catch {
+    // best-effort persistence; ignore storage failures (e.g. private mode)
+  }
+}
+
 export default function App() {
+  const initialEntry = useRef(loadSavedEntry()).current;
+
   const [screen, setScreen] = useState("landing");
-  const [calendarType, setCalendarType] = useState("solar"); // "solar" | "lunar"
-  const [y, setYRaw] = useState(1995);
-  const [m, setMRaw] = useState(6);
-  const [d, setD] = useState(15);
-  const [isLeapMonth, setIsLeapMonth] = useState(false);
+  const [calendarType, setCalendarType] = useState(initialEntry?.calendarType ?? "solar"); // "solar" | "lunar"
+  const [y, setYRaw] = useState(initialEntry?.y ?? 1995);
+  const [m, setMRaw] = useState(initialEntry?.m ?? 6);
+  const [d, setD] = useState(initialEntry?.d ?? 15);
+  const [isLeapMonth, setIsLeapMonth] = useState(initialEntry?.isLeapMonth ?? false);
   const [res, setRes] = useState(null);
   const [birthSnapshot, setBirthSnapshot] = useState(null);
+  const [savedEntry, setSavedEntry] = useState(initialEntry);
   const [saving, setSaving] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   const shareRef = useRef(null);
@@ -71,11 +92,28 @@ export default function App() {
     }
     const computed = ilju.getIlju(solar.y, solar.m, solar.d, null);
     if (!computed) return;
+    const snapshot = { calendarType, y, m, d, isLeapMonth, solar };
     setRes(computed);
-    setBirthSnapshot({ calendarType, y, m, d, isLeapMonth, solar });
+    setBirthSnapshot(snapshot);
     setScreen("brewing");
     clearTimeout(brewTimer.current);
     brewTimer.current = setTimeout(() => setScreen("result"), BREW_MS);
+
+    const entry = { ...snapshot, res: computed };
+    saveEntry(entry);
+    setSavedEntry(entry);
+  };
+
+  const viewSaved = () => {
+    if (!savedEntry) return;
+    setCalendarType(savedEntry.calendarType);
+    setYRaw(savedEntry.y);
+    setMRaw(savedEntry.m);
+    setD(savedEntry.d);
+    setIsLeapMonth(savedEntry.isLeapMonth);
+    setRes(savedEntry.res);
+    setBirthSnapshot(savedEntry);
+    setScreen("result");
   };
 
   const saveImage = async () => {
@@ -107,6 +145,7 @@ export default function App() {
     leapAvailable: calendarType === "lunar" && lunarMonthHasLeap(y, m),
     res,
     birthSnapshot,
+    savedEntry,
     saving,
     previewUrl,
     closePreview,
@@ -120,6 +159,7 @@ export default function App() {
     goShare: () => setScreen("share"),
     submit,
     saveImage,
+    viewSaved,
     setCalendar,
     setY,
     setM,

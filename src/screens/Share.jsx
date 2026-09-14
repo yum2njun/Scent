@@ -56,7 +56,7 @@ export default function Share({ frame }) {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div style={{ font: "500 9px/1 'Noto Sans KR',sans-serif", letterSpacing: ".3em", color: "#a09889" }}>
-              SCENT SAJU
+              여운
             </div>
             <div style={{ font: "400 9.5px/1 'Noto Sans KR',sans-serif", letterSpacing: ".18em", color: accent }}>
               {meta.label}
@@ -117,7 +117,7 @@ export default function Share({ frame }) {
           </div>
           <div style={{ marginTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ font: "300 8.5px/1 'Noto Sans KR',sans-serif", letterSpacing: ".14em", color: "#c9c2b5" }}>
-              향수사주 · SCENTSAJU
+              여운 · 餘運
             </div>
             <div style={{ width: 16, height: 16, border: `1px solid ${accent}` }} />
           </div>

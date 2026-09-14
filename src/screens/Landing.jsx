@@ -1,5 +1,5 @@
 export default function Landing({ frame }) {
-  const { goForm } = frame;
+  const { goForm, savedEntry, viewSaved } = frame;
 
   return (
     <div
@@ -64,6 +64,25 @@ export default function Landing({ frame }) {
       >
         내 시그니처 향 찾기
       </button>
+      {savedEntry && (
+        <button
+          type="button"
+          onClick={viewSaved}
+          style={{
+            marginTop: 10,
+            width: "100%",
+            height: 46,
+            border: "1px solid #d6cfc3",
+            background: "none",
+            color: "#6b6459",
+            font: "400 12.5px/1 'Noto Sans KR',sans-serif",
+            letterSpacing: ".08em",
+            cursor: "pointer",
+          }}
+        >
+          저장된 결과 다시 보기
+        </button>
+      )}
       <div
         style={{
           marginTop: 14,
