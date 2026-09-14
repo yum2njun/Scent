@@ -6,29 +6,12 @@ const sectionLabel = {
   color: "#a09889",
 };
 
-function pad(n) {
-  return String(n).padStart(2, "0");
-}
-
-function formatBirth(snapshot) {
-  if (!snapshot) return "";
-  const { calendarType, y, m, d, isLeapMonth, solar } = snapshot;
-  const entered = y + "." + pad(m) + "." + pad(d);
-  if (calendarType === "lunar") {
-    const leapTag = isLeapMonth ? "(윤월)" : "";
-    const solarStr = solar.y + "." + pad(solar.m) + "." + pad(solar.d);
-    return "음력 " + entered + leapTag + " · 양력 " + solarStr;
-  }
-  return "양력 " + entered;
-}
-
 export default function Result({ frame }) {
-  const { res, accent, soft, pyramidStyle, goLanding, goShare, goForm, birthSnapshot } = frame;
+  const { res, accent, soft, pyramidStyle, goLanding, goShare, goForm } = frame;
   if (!res) return null;
   const p = res.profile;
   const meta = ilju.ELEMENT_META[res.element];
   const hanjaVertical = res.hanja.split("").join("\n");
-  const dateLabel = formatBirth(birthSnapshot);
 
   return (
     <div style={{ padding: "52px 28px 44px", animation: "sj-up .5s ease both" }}>
@@ -267,16 +250,6 @@ export default function Result({ frame }) {
         >
           다시 계산하기
         </button>
-      </div>
-      <div
-        style={{
-          marginTop: 20,
-          font: "300 10.5px/1.7 'Noto Sans KR',sans-serif",
-          color: "#a09889",
-          textAlign: "center",
-        }}
-      >
-        {dateLabel} · 일주 {res.hanja} 기준 큐레이션
       </div>
     </div>
   );
