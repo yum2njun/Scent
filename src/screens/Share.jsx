@@ -82,7 +82,14 @@ export default function Share({ frame }) {
           >
             {res.kr}일주
           </div>
-          <div style={{ marginTop: 26, font: "300 23px/1.5 'Noto Serif KR',serif", textWrap: "pretty" }}>
+          <div
+            style={{
+              marginTop: 26,
+              font: "300 23px/1.5 'Noto Serif KR',serif",
+              textWrap: "pretty",
+              wordBreak: "keep-all",
+            }}
+          >
             {p.p}
           </div>
           <div style={{ marginTop: 16, font: "400 11px/1.5 'Noto Sans KR',sans-serif", color: "#6b6459" }}>

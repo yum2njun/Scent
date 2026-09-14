@@ -64,6 +64,7 @@ export default function Result({ frame }) {
           font: "300 30px/1.48 'Noto Serif KR',serif",
           letterSpacing: "-.01em",
           textWrap: "pretty",
+          wordBreak: "keep-all",
         }}
       >
         {p.p}
@@ -250,6 +251,16 @@ export default function Result({ frame }) {
         >
           다시 계산하기
         </button>
+      </div>
+      <div
+        style={{
+          marginTop: 20,
+          font: "300 10.5px/1.7 'Noto Sans KR',sans-serif",
+          color: "#a09889",
+          textAlign: "center",
+        }}
+      >
+        여운 (餘運)
       </div>
     </div>
   );
