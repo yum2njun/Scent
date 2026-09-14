@@ -146,7 +146,7 @@ export default function Share({ frame }) {
             cursor: "pointer",
           }}
         >
-          {saving ? "이미지 만드는 중…" : "카드 이미지 저장"}
+          {saving ? "카드 만드는 중…" : "카드 공유하기"}
         </button>
         <div
           style={{
@@ -155,7 +155,7 @@ export default function Share({ frame }) {
             textAlign: "center",
           }}
         >
-          9:16 스토리 규격 · 이미지를 길게 눌러 저장 후 인스타그램에 공유하세요
+          9:16 스토리 규격 · 카드 이미지와 링크를 함께 공유해요
         </div>
       </div>
 

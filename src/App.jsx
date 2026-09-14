@@ -12,6 +12,8 @@ const PYRAMID_STYLE = "층층"; // "층층" | "삼각형"
 const ELEMENT_ACCENT = true;
 const BREW_MS = 2600;
 const STORAGE_KEY = "yeoun:lastEntry";
+const SITE_URL = "https://yeounsj.vercel.app/";
+const SHARE_TEXT = `당신에게 남게 될 단 하나의 운명, 여운(餘運)\n${SITE_URL}`;
 
 function solarDaysInMonth(y, m) {
   return new Date(y, m, 0).getDate();
@@ -121,16 +123,34 @@ export default function App() {
     if (!node) return;
     setSaving(true);
     try {
-      const { toPng } = await import("html-to-image");
-      const url = await toPng(node, { pixelRatio: 3, backgroundColor: "#f6f3ee" });
-      setPreviewUrl(url);
-    } catch {
-      // best-effort image export; ignore failures
+      const { toBlob } = await import("html-to-image");
+      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 12000));
+      const blob = await Promise.race([toBlob(node, { pixelRatio: 3, backgroundColor: "#f6f3ee" }), timeout]);
+      if (!blob) return;
+
+      const file = new File([blob], "yeoun-scent-card.png", { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "여운 (餘運)",
+          text: SHARE_TEXT,
+        });
+        return;
+      }
+
+      setPreviewUrl(URL.createObjectURL(blob));
+    } catch (err) {
+      if (err?.name !== "AbortError") {
+        // best-effort share/export; ignore failures other than a user-cancelled share
+      }
     } finally {
       setSaving(false);
     }
   };
-  const closePreview = () => setPreviewUrl(null);
+  const closePreview = () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+  };
 
   const meta = res ? ilju.ELEMENT_META[res.element] : null;
   const accent = ELEMENT_ACCENT && meta ? meta.accent : "#191713";
