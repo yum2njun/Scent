@@ -128,6 +128,23 @@ export default function Share({ frame }) {
             </div>
             <div style={{ width: 16, height: 16, border: `1px solid ${accent}` }} />
           </div>
+          <div
+            style={{
+              marginTop: 14,
+              paddingTop: 14,
+              borderTop: "1px solid #e8e3da",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+            }}
+          >
+            <div style={{ font: "500 9px/1 'Noto Sans KR',sans-serif", letterSpacing: ".06em", color: accent }}>
+              나도 해보기 →
+            </div>
+            <div style={{ font: "300 8.5px/1 'Noto Sans KR',sans-serif", letterSpacing: ".04em", color: "#a09889" }}>
+              yeounsj.vercel.app
+            </div>
+          </div>
         </div>
       </div>
 

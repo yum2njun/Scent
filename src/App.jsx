@@ -12,8 +12,11 @@ const PYRAMID_STYLE = "층층"; // "층층" | "삼각형"
 const ELEMENT_ACCENT = true;
 const BREW_MS = 2600;
 const STORAGE_KEY = "yeoun:lastEntry";
-const SITE_URL = "https://yeounsj.vercel.app/";
-const SHARE_TEXT = `당신에게 남게 될 단 하나의 운명, 여운(餘運)\n${SITE_URL}`;
+// Kept out of the shared text/url on purpose: a raw link in a Web Share
+// payload makes most share targets (KakaoTalk included) attach a separate
+// link-preview card alongside the image. The card image itself carries a
+// "나도 해보기" prompt with the domain printed as plain text instead.
+const SHARE_TEXT = "당신에게 남게 될 단 하나의 운명, 여운(餘運)";
 
 function solarDaysInMonth(y, m) {
   return new Date(y, m, 0).getDate();
